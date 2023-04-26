@@ -4,7 +4,7 @@ import numpy as np
 import torch
 
 
-def get_dataset(csv_path, batch_size):
+def get_dataset(csv_path, batch_size, train_window):
     """load rainfall dataset and returns train, val and test dataloaders
 
     Args:
@@ -14,11 +14,10 @@ def get_dataset(csv_path, batch_size):
     Returns:
         _type_: _description_
     """
-    train_data = RainfallDataset(csv_file=csv_path, split='train')
-    val_data = RainfallDataset(csv_file=csv_path, split='val')
-    test_data = RainfallDataset(csv_file=csv_path, split='test')
-
-    train_loader = DataLoader(train_data, batch_size=batch_size)
-    val_loader = DataLoader(val_data, batch_size=batch_size)
-    test_loader = DataLoader(test_data, batch_size=batch_size)
+    train_data = RainfallDataset(csv_file=csv_path, split='train', train_window= train_window)
+    val_data = RainfallDataset(csv_file=csv_path, split='val', train_window = train_window)
+    test_data = RainfallDataset(csv_file=csv_path, split='test', train_window = train_window)
+    train_loader = DataLoader(train_data, batch_size=batch_size, shuffle= True)
+    val_loader = DataLoader(val_data, batch_size=batch_size, shuffle= True)
+    test_loader = DataLoader(test_data, batch_size=batch_size, shuffle= False)
     return train_loader, val_loader, test_loader
